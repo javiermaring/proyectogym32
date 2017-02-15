@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
 
-
+//hola soy fabian
 
 public class BusquedaPane extends javax.swing.JDialog {
 
