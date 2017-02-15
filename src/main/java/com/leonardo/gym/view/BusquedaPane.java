@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+
 import javax.swing.table.DefaultTableModel;
 
 
