@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 //hola soy fabian
-
 public class BusquedaPane extends javax.swing.JDialog {
 
     private RutinaPrincipal rutinaPrincipal;
@@ -30,10 +29,9 @@ public class BusquedaPane extends javax.swing.JDialog {
     Util util = new Util();
 
     BusquedaPane() {
-    
+
     }
 
-   
     public BusquedaPane(java.awt.Frame parent, boolean modal) {
 
         super(parent, modal);
@@ -190,43 +188,46 @@ public class BusquedaPane extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
+        if (txtBusqueda.getText().equals("")) {
+            JOptionPane.showMessageDialog(panCliente, "Campo Obligatorio");
 
-        int filas = tabClientes.getRowCount();
-        for (int i = 0; filas > i; i++) {
-            modelo.removeRow(0);
-        }
-        if (cbxBusqueda.getSelectedItem().equals("ID")) {
-
-            rs = cliente.busquedaID(txtBusqueda.getText());
-        } else if (cbxBusqueda.getSelectedItem().equals("Nombre")) {
-            rs = cliente.busquedaNombre(txtBusqueda.getText());
-        } else if (cbxBusqueda.getSelectedItem().equals("Apellido")) {
-            rs = cliente.busquedaApellido(txtBusqueda.getText());
-        } else if (cbxBusqueda.getSelectedItem().equals("Nif")) {
-            rs = cliente.busquedaNif(txtBusqueda.getText());
-        } else if (cbxBusqueda.getSelectedItem().equals("Teléfono fijo")) {
-            rs = cliente.busquedaTelefonoFijo(txtBusqueda.getText());
-        } else if (cbxBusqueda.getSelectedItem().equals("Teléfono movil")) {
-            rs = cliente.busquedaTelefonoMovil(txtBusqueda.getText());
         } else {
-            rs = cliente.busquedaEmail(txtBusqueda.getText());
-        }
-
-        try {
-
-            while (rs.next()) {
-
-                modelo.addRow(new Object[]{rs.getInt("id_cliente"), rs.getString("nombre"),
-                    rs.getString("apellidos"), rs.getString("nif"), rs.getInt("telefono_fijo"), rs.getString("email")});
+            int filas = tabClientes.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
             }
-            if (!rs.last()) {
-                JOptionPane.showMessageDialog(null, "No se encontraron usuarios con esos datos");
+            if (cbxBusqueda.getSelectedItem().equals("ID")) {
+
+                rs = cliente.busquedaID(txtBusqueda.getText());
+            } else if (cbxBusqueda.getSelectedItem().equals("Nombre")) {
+                rs = cliente.busquedaNombre(txtBusqueda.getText());
+            } else if (cbxBusqueda.getSelectedItem().equals("Apellido")) {
+                rs = cliente.busquedaApellido(txtBusqueda.getText());
+            } else if (cbxBusqueda.getSelectedItem().equals("Nif")) {
+                rs = cliente.busquedaNif(txtBusqueda.getText());
+            } else if (cbxBusqueda.getSelectedItem().equals("Teléfono fijo")) {
+                rs = cliente.busquedaTelefonoFijo(txtBusqueda.getText());
+            } else if (cbxBusqueda.getSelectedItem().equals("Teléfono movil")) {
+                rs = cliente.busquedaTelefonoMovil(txtBusqueda.getText());
+            } else {
+                rs = cliente.busquedaEmail(txtBusqueda.getText());
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(BusquedaPane.class.getName()).log(Level.SEVERE, null, ex);
+
+            try {
+
+                while (rs.next()) {
+
+                    modelo.addRow(new Object[]{rs.getInt("id_cliente"), rs.getString("nombre"),
+                        rs.getString("apellidos"), rs.getString("nif"), rs.getInt("telefono_fijo"), rs.getString("email")});
+                }
+                if (!rs.last()) {
+                    JOptionPane.showMessageDialog(null, "No se encontraron usuarios con esos datos");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(BusquedaPane.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-
-
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -253,15 +254,13 @@ public class BusquedaPane extends javax.swing.JDialog {
                 float imc = rsantro.getFloat("IMC");
                 rutinaPrincipal.establecerIMC(String.valueOf(imc));
             }
-            
-            
-         id_cli=modelo.getValueAt(tabClientes.getSelectedRow(), 0).toString();
-         
-         rutinaPrincipal.rellenarDatosTabla(id_cli);
-         
-         
+
+            id_cli = modelo.getValueAt(tabClientes.getSelectedRow(), 0).toString();
+
+            rutinaPrincipal.rellenarDatosTabla(id_cli);
+
             rsantro.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
