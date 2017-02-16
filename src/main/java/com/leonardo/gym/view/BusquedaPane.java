@@ -189,7 +189,7 @@ public class BusquedaPane extends javax.swing.JDialog {
 
     private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
        
-        //cometario
+        //se comprueba que el campo yxyBusqueda sea obligatorio
         if (txtBusqueda.getText().equals("")) {
             JOptionPane.showMessageDialog(panCliente, "Campo Obligatorio");
 
