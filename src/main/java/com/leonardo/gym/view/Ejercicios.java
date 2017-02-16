@@ -22,6 +22,7 @@ public final class Ejercicios extends javax.swing.JDialog {
     /**
      * Creates new form Ejercicios
      */
+    //abcdef
     DetallesRutinasDao deta=new DetallesRutinasDao();
     Rutinas rut=new Rutinas();
     EjerciciosDao ejer=new EjerciciosDao();
