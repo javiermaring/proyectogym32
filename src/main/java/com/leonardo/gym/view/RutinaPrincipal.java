@@ -251,7 +251,15 @@ public class RutinaPrincipal extends javax.swing.JFrame {
             new String [] {
                 "ID_RUTINA", "ID_CLIENTE", "FECHA INICIO", "FECHA FINAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jtbRutinas);
 
         jButton4.setText("CERRAR");

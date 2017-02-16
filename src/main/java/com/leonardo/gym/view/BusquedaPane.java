@@ -47,7 +47,7 @@ public class BusquedaPane extends javax.swing.JDialog {
     private void initComponents() {
 
         panCliente = new javax.swing.JPanel();
-        cbxBusqueda = new javax.swing.JComboBox<String>();
+        cbxBusqueda = new javax.swing.JComboBox<>();
         lblBusqueda = new javax.swing.JLabel();
         btnBusqueda = new javax.swing.JButton();
         txtBusqueda = new javax.swing.JTextField();
@@ -63,7 +63,7 @@ public class BusquedaPane extends javax.swing.JDialog {
 
         panCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda"));
 
-        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "Nombre", "Apellido", "Nif", "Teléfono fijo", "Teléfono movil", "Email" }));
+        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nombre", "Apellido", "Nif", "Teléfono fijo", "Teléfono movil", "Email" }));
 
         lblBusqueda.setText("Buscar por:");
 
@@ -110,7 +110,15 @@ public class BusquedaPane extends javax.swing.JDialog {
             new String [] {
                 "ID", "Nombre", "Apellidos", "NIF", "Teléfono", "Email"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabClientes);
 
         javax.swing.GroupLayout panResultadosLayout = new javax.swing.GroupLayout(panResultados);
@@ -191,7 +199,7 @@ public class BusquedaPane extends javax.swing.JDialog {
        
         //se comprueba que el campo yxyBusqueda sea obligatorio
         if (txtBusqueda.getText().equals("")) {
-            JOptionPane.showMessageDialog(panCliente, "Campo Obligatorio");
+            JOptionPane.showMessageDialog(panCliente, "Campo obligatorio, Introduzca un valor");
 
         } else {
             int filas = tabClientes.getRowCount();
@@ -222,6 +230,12 @@ public class BusquedaPane extends javax.swing.JDialog {
                     modelo.addRow(new Object[]{rs.getInt("id_cliente"), rs.getString("nombre"),
                         rs.getString("apellidos"), rs.getString("nif"), rs.getInt("telefono_fijo"), rs.getString("email")});
                 }
+                
+                if (tabClientes.getRowCount()==1) {
+                     tabClientes.selectAll();
+                }
+               
+                
                 if (!rs.last()) {
                     JOptionPane.showMessageDialog(null, "No se encontraron usuarios con esos datos");
                 }
@@ -233,7 +247,7 @@ public class BusquedaPane extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
+       
         int aux = (int) modelo.getValueAt(tabClientes.getSelectedRow(), 0);
         rutinaPrincipal.establecerId(aux);
 
@@ -267,6 +281,9 @@ public class BusquedaPane extends javax.swing.JDialog {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         dispose();
+        
+        
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

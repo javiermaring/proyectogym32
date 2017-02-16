@@ -126,7 +126,6 @@ public class Rutinas extends javax.swing.JDialog {
         txtFecha_Final = new javax.swing.JTextField();
         btnAñadir = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbEjercicios = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
@@ -155,13 +154,6 @@ public class Rutinas extends javax.swing.JDialog {
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
-            }
-        });
-
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modificar.png"))); // NOI18N
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
             }
         });
 
@@ -211,10 +203,9 @@ public class Rutinas extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                .addGap(37, 37, 37))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -261,11 +252,10 @@ public class Rutinas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
                         .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -313,14 +303,9 @@ public class Rutinas extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
-        
-    }//GEN-LAST:event_btnModificarActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if (esInsercion==true) {
+        if (esInsercion == true) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date(txtFecha_Inicio.getText());
             Date date1 = new Date(txtFecha_Final.getText());
@@ -328,27 +313,25 @@ public class Rutinas extends javax.swing.JDialog {
             detalle.insertarDetallesRutina(txtId_Rutina.getText(),
                     dateFormat.format(date), dateFormat.format(date1));
 
-        }else{
-            String fechaInicio=txtFecha_Inicio.getText();
-            String aux[]=fechaInicio.split("-");
-            fechaInicio=aux[2]+"-"+aux[1]+"-"+aux[0];
-            String fechaFin=txtFecha_Final.getText();
+        } else {
+            String fechaInicio = txtFecha_Inicio.getText();
+            String aux[] = fechaInicio.split("-");
+            fechaInicio = aux[2] + "-" + aux[1] + "-" + aux[0];
+            String fechaFin = txtFecha_Final.getText();
             aux = fechaFin.split("-");
-            fechaFin=aux[2]+"-"+aux[1]+"-"+aux[0];
-            
-            
-           detalle.actualizarRutinas(fechaInicio,fechaFin ,txtId_cliente.getText());
+            fechaFin = aux[2] + "-" + aux[1] + "-" + aux[0];
+
+            detalle.actualizarRutinas(fechaInicio, fechaFin, txtId_cliente.getText());
             rutinap.actualizarFechas(fechaInicio, fechaFin);
         }
-        
+
         dispose();
-       
-        
+
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-      dispose();
+        dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     public static void main(String args[]) {
@@ -373,7 +356,6 @@ public class Rutinas extends javax.swing.JDialog {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbEjercicios;
@@ -386,8 +368,15 @@ public class Rutinas extends javax.swing.JDialog {
     private javax.swing.JTextField txtId_cliente;
     // End of variables declaration//GEN-END:variables
 
-     public void establecerFechas(String fechaInicio, String fechaFinal) {
+    public void establecerFechas(String fechaInicio, String fechaFinal) {
         this.txtFecha_Inicio.setText(fechaInicio);
         this.txtFecha_Final.setText(fechaFinal);
+    }
+
+    public void actualizarTablaRutinas(String id, String nombre, String descripcion, String repeticiones, String descansos, String series) {
+
+        modelo.addRow(new Object[]{id, nombre, descripcion, repeticiones, descansos, series});
+        
+
     }
 }

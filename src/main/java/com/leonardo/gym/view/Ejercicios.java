@@ -26,8 +26,8 @@ public final class Ejercicios extends javax.swing.JDialog {
     Rutinas rut=new Rutinas();
     EjerciciosDao ejer=new EjerciciosDao();
     MusculoDao musc=new MusculoDao();
-    ResultSet rsEjer,rsMusc;
-    String id_musc="1";
+    ResultSet rsEjer,rsMusc,tabla;
+    String id_musc="1",desc;
     
     public Ejercicios(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
@@ -248,11 +248,28 @@ public final class Ejercicios extends javax.swing.JDialog {
     }//GEN-LAST:event_jcbMusculoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-//String id_rutina=rut.getTxtId_Rutina();
+    //String id_rutina=rut.getTxtId_Rutina();
        
         deta.insertarRutina("1", jcbEjercicio.getSelectedItem().toString().substring(0, 2), txtRepeticiones.getText(),txtDescanso.getText() ,txtSeries.getText() );
+        
+       String nombre=jcbEjercicio.getSelectedItem().toString().substring(4, 15);
+        tabla=deta.ConsultarDetallesRutinas("1");
+         
 
+            try {
+                while (tabla.next()) {
+                    
+                     desc=tabla.getString(6);
+                }
+                 rut.actualizarTablaRutinas(jcbEjercicio.getSelectedItem().toString().substring(0, 2),nombre ,desc, txtRepeticiones.getText(),txtDescanso.getText() ,txtSeries.getText() );
+       
+           
+            } catch (SQLException ex) {
+                Logger.getLogger(Ejercicios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
         dispose();
+       
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 
