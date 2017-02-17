@@ -250,7 +250,7 @@ public class BusquedaPane extends javax.swing.JDialog {
        
         int aux = (int) modelo.getValueAt(tabClientes.getSelectedRow(), 0);
         rutinaPrincipal.establecerId(aux);
-
+        
         rs = cliente.busquedaID(Integer.toString(aux));
         rsantro = an.busquedaAntropometria(Integer.toString(aux));
         try {

@@ -16,7 +16,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,9 +33,10 @@ public class Rutinas extends javax.swing.JDialog {
     RutinasDao detalle = new RutinasDao();
     DetallesRutinasDao detalleRutina = new DetallesRutinasDao();
     RutinaPrincipal rutinap;
+    Ejercicios ejercicios;
     ResultSet rs;
     DefaultTableModel modelo;
-    ResultSet tabla, tablaEjer;
+    ResultSet rstabla, tablaEjer;
     boolean esInsercion = false;
 
     public boolean isEsInsercion() {
@@ -57,12 +59,14 @@ public class Rutinas extends javax.swing.JDialog {
     }
 
     public Rutinas() {
+        
+        
 
     }
 
-    /*  public String getTxtId_Rutina(){
+     public String getTxtId_Rutina(){
         return txtId_Rutina.getText();
-    }*/
+    }
     public void establecerId_Rutina() {
 
         String id_cliente = rutinap.getTxtId_Cliente();
@@ -82,33 +86,35 @@ public class Rutinas extends javax.swing.JDialog {
     }
 
     public void LimpiarTabla() {
-        int filas = jtbEjercicios.getRowCount();
-        for (int i = 0; filas > i; i++) {
-            modelo.removeRow(0);
+      
+        for (int i = 0; jtbEjercicios.getRowCount() > i; i++) {
+            modelo.removeRow(i);
             i -= i;
         }
     }
 
     public void rellenarDatosTabla() {
         //LimpiarTabla();
-        tabla = detalleRutina.ConsultarDetallesRutinas(txtId_Rutina.getText());
-
+        rstabla = detalleRutina.ConsultarDetallesRutinas(txtId_Rutina.getText());
+            
         try {
 
-            while (tabla.next()) {
+            while (rstabla.next()) {
 
-                modelo.addRow(new Object[]{tabla.getInt("id_ejercicio"), tabla.getString("nombre"),
-                    tabla.getString("descripcion"), tabla.getInt("nseries"), tabla.getInt("repeticiones"), tabla.getInt("descansos")});
+                modelo.addRow(new Object[]{rstabla.getInt("id_ejercicio"), rstabla.getString("nombre"),
+                    rstabla.getString("descripcion"), rstabla.getInt("nseries"), rstabla.getInt("repeticiones"), rstabla.getInt("descansos")});
 
             }
-            if (!tabla.last()) {
+            
+            
+            if (!rstabla.last()) {
                 JOptionPane.showMessageDialog(null, "No se encontraron ejercicios con esos datos");
             }
         } catch (SQLException ex) {
             Logger.getLogger(BusquedaPane.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  
     }
-
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,11 +274,13 @@ public class Rutinas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        new Ejercicios(this, true).setVisible(true);
+       ejercicios= new Ejercicios(this, true);
+        ejercicios.setId_rutina(getTxtId_Rutina());
+        ejercicios.setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAñadirActionPerformed
-
+    
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         int fila = jtbEjercicios.getSelectedRow();
@@ -305,6 +313,14 @@ public class Rutinas extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if ("".equals(txtFecha_Inicio.getText()) || txtFecha_Final.getText()=="" ) {
+            
+           
+                JOptionPane.showMessageDialog(rootPane, "Establezca fechas");
+            
+        }else{
+            
+        
         if (esInsercion == true) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date(txtFecha_Inicio.getText());
@@ -327,7 +343,7 @@ public class Rutinas extends javax.swing.JDialog {
 
         dispose();
 
-
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -373,10 +389,4 @@ public class Rutinas extends javax.swing.JDialog {
         this.txtFecha_Final.setText(fechaFinal);
     }
 
-    public void actualizarTablaRutinas(String id, String nombre, String descripcion, String repeticiones, String descansos, String series) {
-
-        modelo.addRow(new Object[]{id, nombre, descripcion, repeticiones, descansos, series});
-        
-
-    }
 }

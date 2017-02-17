@@ -26,6 +26,7 @@ public class DetallesRutinasDao {
             System.out.println("Se ha introducido un Detallerutina ");
 
         } catch (ClassNotFoundException | SQLException cn) {
+            
         }
 
     }

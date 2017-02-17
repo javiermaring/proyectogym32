@@ -23,83 +23,82 @@ public final class Ejercicios extends javax.swing.JDialog {
      * Creates new form Ejercicios
      */
     //abcdef
-    DetallesRutinasDao deta=new DetallesRutinasDao();
-    Rutinas rut=new Rutinas();
-    EjerciciosDao ejer=new EjerciciosDao();
-    MusculoDao musc=new MusculoDao();
-    ResultSet rsEjer,rsMusc,tabla;
-    String id_musc="1",desc;
-    
+    DetallesRutinasDao deta = new DetallesRutinasDao();
+    Rutinas rut = new Rutinas();
+    EjerciciosDao ejer = new EjerciciosDao();
+    MusculoDao musc = new MusculoDao();
+    ResultSet rsEjer, rsMusc, tabla;
+    String id_musc = "1", desc;
+    String id_rutina;
+    Rutinas rutinas;
+
+    public void setId_rutina(String id_rutina) {
+        this.id_rutina = id_rutina;
+    }
+
     public Ejercicios(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-       
-         AñadirDatosMusculo();
-     
-       
-  
+        rutinas=(Rutinas)parent;
+        AñadirDatosMusculo();
+
     }
 
     public void AñadirDatosEjercicio() {
-         jcbEjercicio.removeAllItems();
-         
+        jcbEjercicio.removeAllItems();
+
         switch (jcbMusculo.getSelectedIndex()) {
             case 0:
-                id_musc="1";
+                id_musc = "1";
                 break;
-                  case 1:
-                id_musc="2";
+            case 1:
+                id_musc = "2";
                 break;
-                  case 2:
-                id_musc="3";
+            case 2:
+                id_musc = "3";
                 break;
-                  case 3:
-                id_musc="4";
+            case 3:
+                id_musc = "4";
                 break;
-                  case 4:
-                id_musc="5";
-                break;  
+            case 4:
+                id_musc = "5";
+                break;
             default:
                 System.out.println(id_musc);
         }
-        
-        
-        
-         rsEjer=ejer.AñadirEjercicios(id_musc);
-        
-          try {
+
+        rsEjer = ejer.AñadirEjercicios(id_musc);
+
+        try {
 
             while (rsEjer.next()) {
-                
-               
-                jcbEjercicio.addItem(rsEjer.getString("id_ejercicio")+"-"+rsEjer.getString("nombre"));
-              
+
+                jcbEjercicio.addItem(rsEjer.getString("id_ejercicio") + "-" + rsEjer.getString("nombre"));
+
             }
             rsEjer.close();
-    } catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-}
-    
+        }
+
     }
-    
-      public void AñadirDatosMusculo() {
-         rsMusc=musc.AñadirMusculo();
-        
-          try {
+
+    public void AñadirDatosMusculo() {
+        rsMusc = musc.AñadirMusculo();
+
+        try {
 
             while (rsMusc.next()) {
-               
+
                 jcbMusculo.addItem(rsMusc.getString("nombre"));
             }
             rsMusc.close();
-    } catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-}
-    
+        }
+
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -244,33 +243,18 @@ public final class Ejercicios extends javax.swing.JDialog {
 
     private void jcbMusculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMusculoActionPerformed
 
-           AñadirDatosEjercicio();      
+        AñadirDatosEjercicio();
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbMusculoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    //String id_rutina=rut.getTxtId_Rutina();
-       
-        deta.insertarRutina("1", jcbEjercicio.getSelectedItem().toString().substring(0, 2), txtRepeticiones.getText(),txtDescanso.getText() ,txtSeries.getText() );
-        
-       String nombre=jcbEjercicio.getSelectedItem().toString().substring(4, 15);
-        tabla=deta.ConsultarDetallesRutinas("1");
-         
+        System.out.println(id_rutina);
+        deta.insertarRutina(id_rutina, jcbEjercicio.getSelectedItem().toString().substring(0, 2), txtRepeticiones.getText(), txtDescanso.getText(), txtSeries.getText());
 
-            try {
-                while (tabla.next()) {
-                    
-                     desc=tabla.getString(6);
-                }
-                 rut.actualizarTablaRutinas(jcbEjercicio.getSelectedItem().toString().substring(0, 2),nombre ,desc, txtRepeticiones.getText(),txtDescanso.getText() ,txtSeries.getText() );
-       
-           
-            } catch (SQLException ex) {
-                Logger.getLogger(Ejercicios.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
+        rutinas.LimpiarTabla();
+        rutinas.rellenarDatosTabla();
         dispose();
-       
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 

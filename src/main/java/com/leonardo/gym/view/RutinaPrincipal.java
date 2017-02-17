@@ -12,14 +12,15 @@ public class RutinaPrincipal extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     ResultSet tabla;
-    RutinasDao rut=new RutinasDao();
-    Rutinas rutn=new Rutinas();
-    BusquedaPane bus=new BusquedaPane();
-    String fechaInicio,fechaFinal;
+    RutinasDao rut = new RutinasDao();
+    Rutinas rutn = new Rutinas();
+    BusquedaPane bus = new BusquedaPane();
+    String fechaInicio, fechaFinal;
+
     public RutinaPrincipal() {
         initComponents();
         modelo = (DefaultTableModel) jtbRutinas.getModel();
-      
+
     }
 
     public String getFechaInicio() {
@@ -71,51 +72,51 @@ public class RutinaPrincipal extends javax.swing.JFrame {
         this.txtImc.setText(imc);
 
     }
-    
-    public void rellenarDatosTabla(String id){
-      LimpiarTabla();
-        tabla=rut.ConsultarRutinas(id);
-        
-         try {
+
+    public void rellenarDatosTabla(String id) {
+        LimpiarTabla();
+        tabla = rut.ConsultarRutinas(id);
+
+        try {
 
             while (tabla.next()) {
 
                 modelo.addRow(new Object[]{tabla.getInt("id_rutina"), tabla.getInt("id_cliente"),
                     tabla.getString("fechaInicio"), tabla.getString("fechaFin")});
             }
-            
+
+            if (jtbRutinas.getRowCount() == 1) {
+                jtbRutinas.selectAll();
+            }
             if (!tabla.last()) {
                 JOptionPane.showMessageDialog(null, "No se encontraron rutinas con esos datos");
             }
         } catch (SQLException ex) {
             Logger.getLogger(BusquedaPane.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
-    
-    
-      public void LimpiarTabla(){
-            int filas = jtbRutinas.getRowCount();
-      for (int i = 0; filas > i; i++) {
+
+    public void LimpiarTabla() {
+        int filas = jtbRutinas.getRowCount();
+        for (int i = 0; filas > i; i++) {
             modelo.removeRow(0);
         }
-      }
-      
-       public void actualizarFechas(String fecha1, String fecha2){
-           
-           String fechaInicio=fecha1;
-            String aux[]=fecha1.split("-");
-            fechaInicio=aux[2]+"-"+aux[1]+"-"+aux[0];
-            String fechaFin=fecha2;
-            aux = fechaFin.split("-");
-            fechaFin=aux[2]+"-"+aux[1]+"-"+aux[0];
-           
-           this.modelo.setValueAt(fechaInicio, jtbRutinas.getSelectedRow(), 2);
-           this.modelo.setValueAt(fechaFin,  jtbRutinas.getSelectedRow(), 3);
-       }
-    
-    
-    
+    }
+
+    public void actualizarFechas(String fecha1, String fecha2) {
+
+        String fechaInicio = fecha1;
+        String aux[] = fecha1.split("-");
+        fechaInicio = aux[2] + "-" + aux[1] + "-" + aux[0];
+        String fechaFin = fecha2;
+        aux = fechaFin.split("-");
+        fechaFin = aux[2] + "-" + aux[1] + "-" + aux[0];
+
+        this.modelo.setValueAt(fechaInicio, jtbRutinas.getSelectedRow(), 2);
+        this.modelo.setValueAt(fechaFin, jtbRutinas.getSelectedRow(), 3);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -359,10 +360,19 @@ public class RutinaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-      Rutinas rutinas =new Rutinas(this, true);
-                rutinas.setEsInsercion(true);
-                
-                rutinas.setVisible(true);
+
+        if (jtbRutinas.getSelectedRow() < 0) {
+
+            JOptionPane.showMessageDialog(rootPane, "Selecione una rutina  de la tabla");
+
+        } else {
+
+            Rutinas rutinas = new Rutinas(this, true);
+            rutinas.setEsInsercion(true);
+
+            rutinas.setVisible(true);
+
+        }
 
 
     }//GEN-LAST:event_btnAñadirActionPerformed
@@ -387,11 +397,8 @@ public class RutinaPrincipal extends javax.swing.JFrame {
 
         if (JOptionPane.YES_OPTION == confirmado) {
 
-         
             rut.borrarRutina(jtbRutinas.getValueAt(fila, 1).toString());
-            
-            
-            
+
             dtf.removeRow(fila);
             JOptionPane.showMessageDialog(rootPane, "se ha borrado con exito");
 
@@ -406,20 +413,16 @@ public class RutinaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        
-        Rutinas rutinas=   new Rutinas(this, true);
-        
-        
-       
-     
-       fechaInicio=(String) modelo.getValueAt(jtbRutinas.getSelectedRow(), 2);
-        fechaFinal=(String) modelo.getValueAt(jtbRutinas.getSelectedRow(), 3);
-        rutinas.establecerFechas(fechaInicio,fechaFinal);
+
+        Rutinas rutinas = new Rutinas(this, true);
+
+        fechaInicio = (String) modelo.getValueAt(jtbRutinas.getSelectedRow(), 2);
+        fechaFinal = (String) modelo.getValueAt(jtbRutinas.getSelectedRow(), 3);
+        rutinas.establecerFechas(fechaInicio, fechaFinal);
         rutinas.rellenarDatosTabla();
         rutinas.setVisible(true);
-     
-        
-        
+
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
