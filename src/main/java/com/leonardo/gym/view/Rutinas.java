@@ -274,7 +274,8 @@ public class Rutinas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-       ejercicios= new Ejercicios(this, true);
+
+        ejercicios= new Ejercicios(this, true);
         ejercicios.setId_rutina(getTxtId_Rutina());
         ejercicios.setVisible(true);
 
@@ -340,6 +341,8 @@ public class Rutinas extends javax.swing.JDialog {
             detalle.actualizarRutinas(fechaInicio, fechaFin, txtId_cliente.getText());
             rutinap.actualizarFechas(fechaInicio, fechaFin);
         }
+        rutinap.LimpiarTabla();
+        rutinap.rellenarDatosTabla(txtId_cliente.getText());
 
         dispose();
 

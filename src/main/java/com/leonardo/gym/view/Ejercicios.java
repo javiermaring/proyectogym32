@@ -248,6 +248,7 @@ public final class Ejercicios extends javax.swing.JDialog {
     }//GEN-LAST:event_jcbMusculoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+       
         System.out.println(id_rutina);
         deta.insertarRutina(id_rutina, jcbEjercicio.getSelectedItem().toString().substring(0, 2), txtRepeticiones.getText(), txtDescanso.getText(), txtSeries.getText());
 

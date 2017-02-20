@@ -20,6 +20,7 @@ public class RutinaPrincipal extends javax.swing.JFrame {
     public RutinaPrincipal() {
         initComponents();
         modelo = (DefaultTableModel) jtbRutinas.getModel();
+        
 
     }
 
@@ -76,6 +77,8 @@ public class RutinaPrincipal extends javax.swing.JFrame {
     public void rellenarDatosTabla(String id) {
         LimpiarTabla();
         tabla = rut.ConsultarRutinas(id);
+        
+        
 
         try {
 
@@ -83,6 +86,15 @@ public class RutinaPrincipal extends javax.swing.JFrame {
 
                 modelo.addRow(new Object[]{tabla.getInt("id_rutina"), tabla.getInt("id_cliente"),
                     tabla.getString("fechaInicio"), tabla.getString("fechaFin")});
+            }
+            
+            if (jtbRutinas.getRowCount()>0) {
+                btnEliminar.setEnabled(true);
+               btnModificar.setEnabled(true);
+            }else{
+                 btnEliminar.setEnabled(false);
+                 btnModificar.setEnabled(false);
+                
             }
 
             if (jtbRutinas.getRowCount() == 1) {
@@ -301,6 +313,7 @@ public class RutinaPrincipal extends javax.swing.JFrame {
         });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
+        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -308,6 +321,7 @@ public class RutinaPrincipal extends javax.swing.JFrame {
         });
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modificar.png"))); // NOI18N
+        btnModificar.setEnabled(false);
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
@@ -361,19 +375,10 @@ public class RutinaPrincipal extends javax.swing.JFrame {
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
 
-        if (jtbRutinas.getSelectedRow() < 0) {
-
-            JOptionPane.showMessageDialog(rootPane, "Selecione una rutina  de la tabla");
-
-        } else {
-
             Rutinas rutinas = new Rutinas(this, true);
             rutinas.setEsInsercion(true);
 
             rutinas.setVisible(true);
-
-        }
-
 
     }//GEN-LAST:event_btnAñadirActionPerformed
 
