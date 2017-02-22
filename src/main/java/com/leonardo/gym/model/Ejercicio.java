@@ -4,17 +4,26 @@ package com.leonardo.gym.model;
 import java.awt.Image;
 
 
-public class Ejercicios {
+public class Ejercicio {
      private int id_ejercicio,id_musculo;
     private String nombre,descripcion;
     private Image imagen;
 
-    public Ejercicios(int id_ejercicio, int id_musculo, String nombre, String descripcion, Image imagen) {
+    public Ejercicio(int id_ejercicio, int id_musculo, String nombre, String descripcion, Image imagen) {
         this.id_ejercicio = id_ejercicio;
         this.id_musculo = id_musculo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
+    }
+
+    public Ejercicio() {
+        
+         this.id_ejercicio = 0;
+        this.id_musculo = 0;
+        this.nombre = "";
+        this.descripcion = "";
+        this.imagen = null;
     }
 
     public int getId_ejercicio() {

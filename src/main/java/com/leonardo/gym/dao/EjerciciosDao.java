@@ -5,6 +5,8 @@
  */
 package com.leonardo.gym.dao;
 
+import com.leonardo.gym.model.Ejercicio;
+import com.leonardo.gym.view.Ejercicios;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,6 +27,8 @@ public class EjerciciosDao {
     ResultSet añadirDatos,añadirDatosEjer;
     
     public ResultSet AñadirEjercicios(String id){
+        Ejercicio ejercicio=new Ejercicio();
+        ejercicio.setId_musculo(Integer.parseInt(id));
         
           try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +37,7 @@ public class EjerciciosDao {
                     "davinci", "dam2davinci");
             Statement sentencia = conexion.createStatement();
 
-            añadirDatos = sentencia.executeQuery("SELECT id_ejercicio,nombre FROM Ejercicios where id_musculo='" + id+"'");
+            añadirDatos = sentencia.executeQuery("SELECT id_ejercicio,nombre FROM Ejercicios where id_musculo='" +ejercicio.getId_musculo()+"'");
 
            
         } catch (ClassNotFoundException | SQLException cn) {

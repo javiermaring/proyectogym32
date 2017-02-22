@@ -18,6 +18,12 @@ public class Musculo {
         this.id_musculo = id_musculo;
         this.nombre = nombre;
     }
+
+    public Musculo() {
+        
+         this.id_musculo = 0;
+        this.nombre = "";
+    }
     
         
     public int getId_musculo() {

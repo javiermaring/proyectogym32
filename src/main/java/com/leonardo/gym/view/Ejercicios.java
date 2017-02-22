@@ -32,6 +32,8 @@ public final class Ejercicios extends javax.swing.JDialog {
     String id_rutina;
     Rutinas rutinas;
 
+  
+
     public void setId_rutina(String id_rutina) {
         this.id_rutina = id_rutina;
     }

@@ -5,6 +5,7 @@
  */
 package com.leonardo.gym.dao;
 
+import com.leonardo.gym.model.Musculo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ public class MusculoDao {
           ResultSet añadirDatos;
     
     public ResultSet AñadirMusculo(){
+      
         
           try {
             Class.forName("com.mysql.jdbc.Driver");

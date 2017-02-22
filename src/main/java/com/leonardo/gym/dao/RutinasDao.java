@@ -6,13 +6,11 @@
 package com.leonardo.gym.dao;
 
 import com.leonardo.gym.model.Rutina;
-import com.leonardo.gym.view.Rutinas;
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +29,7 @@ public class RutinasDao {
            Rutina rutina=new Rutina();
            rutina.setIdCliente(Integer.parseInt(id_cliente));
             
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 Date parsed = format.parse(fecha_inicio);
              java.sql.Date sql1 = new java.sql.Date(parsed.getTime());
              
@@ -84,6 +82,8 @@ public class RutinasDao {
            
        }
        public ResultSet ConsultarId(String id_rutina){
+           Rutina rutina=new Rutina();
+           rutina.setIdRutina(Integer.parseInt(id_rutina));
            
            
              try {
@@ -93,7 +93,7 @@ public class RutinasDao {
                     "davinci", "dam2davinci");
             Statement sentencia = conexion.createStatement();
 
-            añadirDatos = sentencia.executeQuery("SELECT id_rutina as id FROM Rutinas where id_rutina="+ id_rutina);
+            añadirDatos = sentencia.executeQuery("SELECT id_rutina as id FROM Rutinas where id_rutina="+ rutina.getIdRutina());
 
            
         } catch (ClassNotFoundException | SQLException cn) {
