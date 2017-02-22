@@ -3,10 +3,14 @@ package com.leonardo.gym.view;
 import com.leonardo.gym.dao.Antropometria;
 import com.leonardo.gym.dao.Clientes;
 import com.leonardo.gym.util.Util;
+import java.awt.Image;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -247,7 +251,9 @@ public class BusquedaPane extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-            rutinaPrincipal.LimpiarTabla();
+            Blob blob = null;
+        
+        rutinaPrincipal.LimpiarTabla();
         if (tabClientes.getRowCount()==0) {
             JOptionPane.showMessageDialog(panCliente,"Introduzca datos para la busqueda" );
             
@@ -266,8 +272,15 @@ public class BusquedaPane extends javax.swing.JDialog {
                 rutinaPrincipal.establecerNombre(rs.getString("nombre"));
                 rutinaPrincipal.establecerApellidos(rs.getString("apellidos"));
                 rutinaPrincipal.establecerEdad(Integer.toString(util.CalcularEdad(rs.getString("fecha_nacimiento"))));
-
+                  blob = rs.getBlob("imagen");
+                
+              
             }
+             Image i=null;
+                       ImageIcon image = new ImageIcon(
+                    blob.getBytes(1,(int)blob.length()));
+                       i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+                        rutinaPrincipal.getjLabelFotoCliente().setIcon(image);
             rs.close();
 
             while (rsantro.next()) {
@@ -282,10 +295,15 @@ public class BusquedaPane extends javax.swing.JDialog {
             rutinaPrincipal.rellenarDatosTabla(id_cli);
 
             rsantro.close();
+            
+            
+            
 
         } catch (SQLException ex) {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }       catch (IOException ex) {
+                    Logger.getLogger(BusquedaPane.class.getName()).log(Level.SEVERE, null, ex);
+                }
         dispose();
         
         

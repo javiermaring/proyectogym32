@@ -8,12 +8,16 @@ package com.leonardo.gym.view;
 import com.leonardo.gym.dao.DetallesRutinasDao;
 import com.leonardo.gym.dao.EjerciciosDao;
 import com.leonardo.gym.dao.RutinasDao;
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,6 +25,13 @@ import javax.swing.JTextField;
 
 
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -40,6 +51,14 @@ public class Rutinas extends javax.swing.JDialog {
     DefaultTableModel modelo;
     ResultSet rstabla, tablaEjer;
     boolean esInsercion = false;
+    
+    String reportSource = "./src/main/java/com/leonardo/gym/informes/Ejercicios.jrxml";
+    String reportPDF = "./src/main/java/com/leonardo/gym/informes/Ejercicios1.pdf";
+    Map parametros = new HashMap();
+    JasperReport reporte=null;
+
+    
+    
 
     public boolean isEsInsercion() {
         return esInsercion;
@@ -163,6 +182,7 @@ public class Rutinas extends javax.swing.JDialog {
         btnCerrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtId_cliente = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -225,6 +245,13 @@ public class Rutinas extends javax.swing.JDialog {
 
         txtId_cliente.setEditable(false);
 
+        jButton1.setText("Informe");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,7 +288,9 @@ public class Rutinas extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(219, 219, 219)
                         .addComponent(btnGuardar)
-                        .addGap(116, 116, 116)
+                        .addGap(66, 66, 66)
+                        .addComponent(jButton1)
+                        .addGap(87, 87, 87)
                         .addComponent(btnCerrar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -291,7 +320,8 @@ public class Rutinas extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
-                    .addComponent(btnCerrar))
+                    .addComponent(btnCerrar)
+                    .addComponent(jButton1))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -383,6 +413,42 @@ public class Rutinas extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+   try {
+
+          Class.forName("com.mysql.jdbc.Driver");
+
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://db4free.net:3307/gimnasio",
+                    "davinci", "dam2davinci");
+
+            parametros.put("idRutina", Integer.parseInt(txtId_Rutina.getText()));
+            
+            
+             
+
+           
+
+            reporte = (JasperReport) JasperCompileManager.compileReport(reportSource);
+
+            JasperPrint miInforme = JasperFillManager.fillReport(reporte, parametros, conexion);
+
+            JasperViewer.viewReport(miInforme);
+            JasperExportManager.exportReportToPdfFile(miInforme, reportPDF);
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error en el driver");
+        } catch (SQLException ex) {
+            System.out.println("Error en la consulta  SQL");
+        } catch (JRException ex) {
+            System.out.println("Error Jasper");
+        }
+        
+
+
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -405,6 +471,7 @@ public class Rutinas extends javax.swing.JDialog {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbEjercicios;

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ejercicios" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="551bd253-5120-459a-ba5f-288d61cf7088">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idRutina" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Javy\\Desktop\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from Rutinas where id_rutina=$P{idRutina}]]>
+	</queryString>
+	<field name="id_rutina" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_cliente" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaInicio" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaFin" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="156" y="0" width="258" height="29" uuid="7ef23c0e-34e8-468d-bd9c-2927d1fee9d8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME RUTINAS CLIENTES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="91" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="7" y="5" width="545" height="46" backcolor="#CCCCCC" uuid="a422a61b-6f6d-4765-8319-a33e2390c231"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="18" width="49" height="20" uuid="16e15f85-e8a6-4fd1-907b-85dc77552098"/>
+				<text><![CDATA[id_rutina]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="59" y="18" width="30" height="20" uuid="3621b42a-281e-4881-b279-89f887ba41c0"/>
+				<textFieldExpression><![CDATA[$F{id_rutina}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="18" width="39" height="20" uuid="f2045ad3-f84d-4558-ad83-79605ab19d11"/>
+				<textFieldExpression><![CDATA[$F{id_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="102" y="18" width="54" height="20" uuid="77b53faf-bd83-4b13-bead-61c61d7518f8"/>
+				<text><![CDATA[id_cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="18" width="75" height="20" uuid="37a92fdc-eb6a-4294-9916-4ec60207b4a2"/>
+				<text><![CDATA[fecha_inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="382" y="18" width="55" height="20" uuid="47d7b382-8f41-40b4-ad90-b764279764a7"/>
+				<text><![CDATA[fecha_final]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="282" y="18" width="65" height="20" uuid="4c735ecb-7790-4951-a92c-b28b500a9624"/>
+				<textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="18" width="76" height="20" uuid="0c06ac93-4137-4091-a639-500d0ac24884"/>
+				<textFieldExpression><![CDATA[$F{fechaFin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="185" splitType="Stretch">
+			<subreport>
+				<reportElement x="7" y="15" width="545" height="85" uuid="c06b5d57-31e4-42fa-9ba7-61dd54b05f5f"/>
+				<subreportParameter name="idRutina">
+					<subreportParameterExpression><![CDATA[$P{idRutina}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Ejercicio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="452" y="10" width="100" height="20" uuid="2186d384-28b2-493b-8c0b-9f47ee09b801"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="10" y="10" width="100" height="20" uuid="d9a9ffff-7a60-4359-ae5a-a63c2dc53d68"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

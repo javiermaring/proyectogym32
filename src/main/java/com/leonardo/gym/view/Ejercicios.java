@@ -8,10 +8,15 @@ package com.leonardo.gym.view;
 import com.leonardo.gym.dao.DetallesRutinasDao;
 import com.leonardo.gym.dao.EjerciciosDao;
 import com.leonardo.gym.dao.MusculoDao;
+import java.awt.Image;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,7 +32,7 @@ public final class Ejercicios extends javax.swing.JDialog {
     Rutinas rut = new Rutinas();
     EjerciciosDao ejer = new EjerciciosDao();
     MusculoDao musc = new MusculoDao();
-    ResultSet rsEjer, rsMusc, tabla;
+    ResultSet rsEjer, rsMusc, tabla,rsFoto;
     String id_musc = "1", desc;
     String id_rutina;
     Rutinas rutinas;
@@ -100,6 +105,42 @@ public final class Ejercicios extends javax.swing.JDialog {
         }
 
     }
+    
+    
+    public void mostrarImagen(){
+        
+        rsFoto=ejer.ConsultarImagen(jcbEjercicio.getSelectedItem().toString().substring(0,2));
+
+ Blob blob = null;
+
+
+        try {
+            while (rsFoto.next()) {
+                blob = rsFoto.getBlob("imagen");
+                
+            }
+            
+                   Image i=null;
+                       ImageIcon image = new ImageIcon(
+                    blob.getBytes(1,(int)blob.length()));
+                       i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+
+               lblFotoEjer.setIcon(image);
+            
+            
+            
+        }
+        
+        catch (SQLException ex) {
+            Logger.getLogger(Ejercicios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Ejercicios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                 
+        
+        
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +164,7 @@ public final class Ejercicios extends javax.swing.JDialog {
         txtRepeticiones = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
+        lblFotoEjer = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -133,6 +175,12 @@ public final class Ejercicios extends javax.swing.JDialog {
         jcbMusculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbMusculoActionPerformed(evt);
+            }
+        });
+
+        jcbEjercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEjercicioActionPerformed(evt);
             }
         });
 
@@ -168,15 +216,15 @@ public final class Ejercicios extends javax.swing.JDialog {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(btnGuardar)
-                        .addGap(75, 75, 75)
-                        .addComponent(btnCerrar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jcbMusculo, 0, 179, Short.MAX_VALUE)
-                            .addComponent(jcbEjercicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(btnGuardar)
+                                .addGap(75, 75, 75)
+                                .addComponent(btnCerrar))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jcbMusculo, 0, 179, Short.MAX_VALUE)
+                                .addComponent(jcbEjercicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(173, 173, 173)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDescanso)
@@ -191,7 +239,11 @@ public final class Ejercicios extends javax.swing.JDialog {
                         .addComponent(lblRepeticiones)
                         .addGap(31, 31, 31)
                         .addComponent(txtRepeticiones, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))))
+                        .addGap(58, 58, 58))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(lblFotoEjer, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +265,9 @@ public final class Ejercicios extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblEjercicio)
                             .addComponent(jcbEjercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(lblFotoEjer, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnCerrar))
@@ -261,6 +315,12 @@ public final class Ejercicios extends javax.swing.JDialog {
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void jcbEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEjercicioActionPerformed
+
+    mostrarImagen();
+
+    }//GEN-LAST:event_jcbEjercicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,6 +373,7 @@ public final class Ejercicios extends javax.swing.JDialog {
     private javax.swing.JComboBox jcbMusculo;
     private javax.swing.JLabel lblDescanso;
     private javax.swing.JLabel lblEjercicio;
+    private javax.swing.JLabel lblFotoEjer;
     private javax.swing.JLabel lblMusculo;
     private javax.swing.JLabel lblRepeticiones;
     private javax.swing.JLabel lblSeries;

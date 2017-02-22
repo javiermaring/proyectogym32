@@ -24,7 +24,7 @@ import java.sql.Statement;
 public class EjerciciosDao {
    
     
-    ResultSet añadirDatos,añadirDatosEjer;
+    ResultSet añadirDatos,añadirDatosEjer,imagen;
     
     public ResultSet AñadirEjercicios(String id){
         Ejercicio ejercicio=new Ejercicio();
@@ -69,7 +69,26 @@ public class EjerciciosDao {
         
        }
        
-    
+       public ResultSet ConsultarImagen(String id){
+           
+           
+             try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://db4free.net:3307/gimnasio",
+                    "davinci", "dam2davinci");
+            Statement sentencia = conexion.createStatement();
+
+            imagen = sentencia.executeQuery("SELECT imagen FROM Ejercicios where id_ejercicio='"+id+"'" );
+
+           
+        } catch (ClassNotFoundException | SQLException cn) {
+            System.out.println(cn.getMessage());
+        }
+        return imagen;
+        
+       }
+       
     
     
     
