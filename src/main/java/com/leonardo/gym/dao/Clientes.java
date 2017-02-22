@@ -15,6 +15,8 @@ public class Clientes {
     ResultSet rs;
 
     public ResultSet busquedaID(String id) {
+        
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
 

@@ -11,11 +11,13 @@ import com.leonardo.gym.dao.RutinasDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 
 import javax.swing.table.DefaultTableModel;
@@ -52,7 +54,7 @@ public class Rutinas extends javax.swing.JDialog {
         rutinap = (RutinaPrincipal) parent;
         initComponents();
         modelo = (DefaultTableModel) jtbEjercicios.getModel();
-        establecerId_Rutina();
+       
 
         txtId_cliente.setText(rutinap.getTxtId_Cliente());
 
@@ -67,16 +69,39 @@ public class Rutinas extends javax.swing.JDialog {
      public String getTxtId_Rutina(){
         return txtId_Rutina.getText();
     }
-    public void establecerId_Rutina() {
 
-        String id_cliente = rutinap.getTxtId_Cliente();
-        rs = detalle.ConsultarId(id_cliente);
+    public void setTxtId_Rutina(JTextField txtId_Rutina) {
+        this.txtId_Rutina = txtId_Rutina;
+    }
+     
+    public void establecerMaxId_Rutina() {
+
+        
+        rs = detalle.ConsultarMaxId();
 
         try {
 
             while (rs.next()) {
 
-                txtId_Rutina.setText(rs.getString("id_rutina"));
+                txtId_Rutina.setText(rs.getString("nuevoIdRutina"));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void establecerId_Rutina(String id_rutina) {
+
+        
+        rs = detalle.ConsultarId(id_rutina);
+
+        try {
+
+            while (rs.next()) {
+
+                txtId_Rutina.setText(rs.getString("id"));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -93,9 +118,9 @@ public class Rutinas extends javax.swing.JDialog {
         }
     }
 
-    public void rellenarDatosTabla() {
+    public void rellenarDatosTabla(String id_rutina) {
         //LimpiarTabla();
-        rstabla = detalleRutina.ConsultarDetallesRutinas(txtId_Rutina.getText());
+        rstabla = detalleRutina.ConsultarDetallesRutinas(id_rutina);
             
         try {
 
@@ -205,9 +230,9 @@ public class Rutinas extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -313,7 +338,7 @@ public class Rutinas extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+       
         if ("".equals(txtFecha_Inicio.getText()) || txtFecha_Final.getText()=="" ) {
             
            
@@ -322,25 +347,30 @@ public class Rutinas extends javax.swing.JDialog {
         }else{
             
         
-        if (esInsercion == true) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date(txtFecha_Inicio.getText());
-            Date date1 = new Date(txtFecha_Final.getText());
+        if (esInsercion == true) {       
 
-            detalle.insertarDetallesRutina(txtId_Rutina.getText(),
-                    dateFormat.format(date), dateFormat.format(date1));
+            try {
+                detalle.insertarDetallesRutina(txtId_cliente.getText(),
+                        txtFecha_Inicio.getText(),txtFecha_Final.getText());
+            } catch (ParseException ex) {
+                Logger.getLogger(Rutinas.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else {
-            String fechaInicio = txtFecha_Inicio.getText();
-            String aux[] = fechaInicio.split("-");
-            fechaInicio = aux[2] + "-" + aux[1] + "-" + aux[0];
+           String fechaInicio = txtFecha_Inicio.getText();
+          //String aux[] = fechaInicio.split("-");
+           // fechaInicio = aux[2] + "-" + aux[1] + "-" + aux[0];
             String fechaFin = txtFecha_Final.getText();
-            aux = fechaFin.split("-");
-            fechaFin = aux[2] + "-" + aux[1] + "-" + aux[0];
-
-            detalle.actualizarRutinas(fechaInicio, fechaFin, txtId_cliente.getText());
+           // aux = fechaFin.split("-");
+           // fechaFin = aux[2] + "-" + aux[1] + "-" + aux[0];*/
+            try {
+                detalle.actualizarRutinas(fechaInicio, fechaFin, txtId_cliente.getText());
+            } catch (ParseException ex) {
+                Logger.getLogger(Rutinas.class.getName()).log(Level.SEVERE, null, ex);
+            }
             rutinap.actualizarFechas(fechaInicio, fechaFin);
         }
+        
         rutinap.LimpiarTabla();
         rutinap.rellenarDatosTabla(txtId_cliente.getText());
 

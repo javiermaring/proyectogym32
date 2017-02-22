@@ -134,12 +134,6 @@ public final class Ejercicios extends javax.swing.JDialog {
             }
         });
 
-        jcbEjercicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbEjercicioActionPerformed(evt);
-            }
-        });
-
         lblSeries.setText("Series");
 
         lblDescanso.setText("Descanso");
@@ -248,30 +242,23 @@ public final class Ejercicios extends javax.swing.JDialog {
     }//GEN-LAST:event_jcbMusculoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       
-        System.out.println(id_rutina);
-        deta.insertarRutina(id_rutina, jcbEjercicio.getSelectedItem().toString().substring(0, 2), txtRepeticiones.getText(), txtDescanso.getText(), txtSeries.getText());
+
+        String aux=jcbEjercicio.getSelectedItem().toString();
+        String [] tem=aux.split("-");
+        deta.insertarRutina(id_rutina, tem[0], txtRepeticiones.getText(), txtDescanso.getText(), txtSeries.getText());
 
         rutinas.LimpiarTabla();
-        rutinas.rellenarDatosTabla();
+        rutinas.rellenarDatosTabla(id_rutina);
         dispose();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-
-        
+  
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCerrarActionPerformed
-
-    private void jcbEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEjercicioActionPerformed
-
-        
-
-// TODO add your handling code here:
-    }//GEN-LAST:event_jcbEjercicioActionPerformed
 
     /**
      * @param args the command line arguments

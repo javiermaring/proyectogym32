@@ -196,7 +196,7 @@ public class BusquedaPane extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
-       
+       rutinaPrincipal.LimpiarTabla();
         //se comprueba que el campo yxyBusqueda sea obligatorio
         if (txtBusqueda.getText().equals("")) {
             JOptionPane.showMessageDialog(panCliente, "Campo obligatorio, Introduzca un valor");
@@ -247,7 +247,13 @@ public class BusquedaPane extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-       
+            rutinaPrincipal.LimpiarTabla();
+        if (tabClientes.getRowCount()==0) {
+            JOptionPane.showMessageDialog(panCliente,"Introduzca datos para la busqueda" );
+            
+        }else{
+        
+        
         int aux = (int) modelo.getValueAt(tabClientes.getSelectedRow(), 0);
         rutinaPrincipal.establecerId(aux);
         
@@ -272,7 +278,7 @@ public class BusquedaPane extends javax.swing.JDialog {
             }
 
             id_cli = modelo.getValueAt(tabClientes.getSelectedRow(), 0).toString();
-
+            
             rutinaPrincipal.rellenarDatosTabla(id_cli);
 
             rsantro.close();
@@ -281,6 +287,9 @@ public class BusquedaPane extends javax.swing.JDialog {
             Logger.getLogger(RutinaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         dispose();
+        
+        
+        }
         
         
         

@@ -22,6 +22,17 @@ public class DetallesRutinas {
         this.nSeries = nSeries;
         this.descansos = descansos;
     }
+
+    public DetallesRutinas() {
+        
+         this.idDetalleRutina = 0;
+        this.idEjercicio = 0;
+        this.idRutina = 0;
+        this.repeticiones = 0;
+        this.nSeries = 0;
+        this.descansos =0;
+        
+    }
     
     
     

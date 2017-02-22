@@ -11,16 +11,23 @@ import java.sql.Date;
  *
  * @author Javy
  */
-public class Rutinas {
+public class Rutina {
     
     private int idRutina,idCliente;
     private Date fecha_inicio,fecha_final;
 
-    public Rutinas(int idRutina, int idCliente, Date fecha_inicio, Date fecha_final) {
+    public Rutina(int idRutina, int idCliente, Date fecha_inicio, Date fecha_final) {
         this.idRutina = idRutina;
         this.idCliente = idCliente;
         this.fecha_inicio = fecha_inicio;
         this.fecha_final = fecha_final;
+    }
+    public Rutina(){
+        this.idRutina=0;
+        this.idCliente=0;
+        this.fecha_inicio=null;
+        this.fecha_final=null;
+        
     }
 
     public int getIdRutina() {

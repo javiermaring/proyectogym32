@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.leonardo.gym.model;
 
 import java.awt.Image;
 
-/**
- *
- * @author Javy
- */
+
 public class Ejercicios {
      private int id_ejercicio,id_musculo;
     private String nombre,descripcion;
